@@ -1,6 +1,11 @@
-# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
-bin
-obj
+# Build folders
+compile-mono/bin
+compile-mono/obj
+compile-visualstudio/bin
+compile-visualstudio/obj
 
-# mstest test results
+# VS user-specific
+compile-visualstudio/smoothget.v12.suo
+
+# mstest
 TestResults

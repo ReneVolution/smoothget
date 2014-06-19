@@ -12,4 +12,4 @@
 
 set -ex
 gmcs -out:smoothget.exe -debug- -optimize+ -langversion:ISO-2 \
-    Download.cs Mkv.cs Mp4.cs Program.cs Smooth.cs Utils.cs
+    ../src/Download.cs ../src/Mkv.cs ../src/Mp4.cs ../src/Program.cs ../src/Smooth.cs ../src/Utils.cs
