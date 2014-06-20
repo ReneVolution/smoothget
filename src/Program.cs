@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-//[assembly: AssemblyVersion("3.0.0.3")]
 
 namespace Smoothget
 {
@@ -253,7 +252,7 @@ namespace Smoothget
         private static void Logo()
         {
             AssemblyName name = Assembly.GetEntryAssembly().GetName();
-            Console.WriteLine(string.Concat(new object[] { name.Name, " v", name.Version }));
+            Console.WriteLine(string.Concat(new object[] { name.Name, " v1.0-alpha1"}));
             Console.WriteLine();
         }
         private static void Help()
