@@ -40,6 +40,9 @@ namespace Smoothget
 
     internal class MainClass
     {
+        public static int audioQuality = 0; //TODO: Move audioQuality and videoQuality somewhere else.
+        public static int videoQuality = 0;
+
         private static void Main(string[] args)
         {
             Logo();
@@ -59,6 +62,22 @@ namespace Smoothget
                 else if (args[j] == "--det")
                 {
                     isDeterministic = true;
+                }
+                else if (args[j] == "--vq")
+                {
+                    ++j;
+                    if (j <= args.Length)
+                    {
+                        videoQuality = Convert.ToInt32(args[j]);
+                    }
+                }
+                else if (args[j] == "--aq")
+                {
+                    ++j;
+                    if (j <= args.Length)
+                    {
+                        audioQuality = Convert.ToInt32(args[j]);
+                    }
                 }
             }
             if (args.Length < j + 2)

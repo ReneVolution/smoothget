@@ -200,9 +200,28 @@ namespace Smoothget.Smooth
             this.pureUrl = this.pureUrl.Substring(0, this.pureUrl.LastIndexOf('/'));
             this.SelectedTracks = new List<TrackInfo>();
 
-            if (this.AvailableTracks.Count > 0)
+            if (this.AvailableTracks[0] is AudioTrackInfo)
             {
-                this.SelectedTracks.Add(this.AvailableTracks[0]);
+                if (this.AvailableTracks.Count >= MainClass.audioQuality)
+                {
+                    this.SelectedTracks.Add(this.AvailableTracks[MainClass.audioQuality]);
+                }
+                else
+                {
+                    this.SelectedTracks.Add(this.AvailableTracks[0]);
+                }
+            }
+
+            if (this.AvailableTracks[0] is VideoTrackInfo)
+            {
+                if (this.AvailableTracks.Count >= MainClass.videoQuality)
+                {
+                    this.SelectedTracks.Add(this.AvailableTracks[MainClass.videoQuality]);
+                }
+                else
+                {
+                    this.SelectedTracks.Add(this.AvailableTracks[0]);
+                }
             }
         }
         private void CheckUrlAttribute()
