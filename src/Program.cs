@@ -44,65 +44,73 @@ namespace Smoothget
 
         private static void Main(string[] args)
         {
-            Logo();
-            int j;
-            bool isDeterministic = false;
-            for (j = 0; j < args.Length; ++j)
+            try
             {
-                if (args[j] == "--")
+                Logo();
+                int j;
+                bool isDeterministic = false;
+                for (j = 0; j < args.Length; ++j)
                 {
-                    ++j;
-                    break;
-                }
-                else if (args[j].Length == 0 || args[j] == "-" || args[j][0] != '-')
-                {
-                    break;
-                }
-                else if (args[j] == "--det")
-                {
-                    isDeterministic = true;
-                }
-                else if (args[j] == "--vq")
-                {
-                    ++j;
-                    if (j <= args.Length)
+                    if (args[j] == "--")
                     {
-                        videoQuality = Convert.ToInt32(args[j]);
+                        ++j;
+                        break;
+                    }
+                    else if (args[j].Length == 0 || args[j] == "-" || args[j][0] != '-')
+                    {
+                        break;
+                    }
+                    else if (args[j] == "--det")
+                    {
+                        isDeterministic = true;
+                    }
+                    else if (args[j] == "--vq")
+                    {
+                        ++j;
+                        if (j <= args.Length)
+                        {
+                            videoQuality = Convert.ToInt32(args[j]);
+                        }
+                    }
+                    else if (args[j] == "--aq")
+                    {
+                        ++j;
+                        if (j <= args.Length)
+                        {
+                            audioQuality = Convert.ToInt32(args[j]);
+                        }
                     }
                 }
-                else if (args[j] == "--aq")
+                if (args.Length < j + 2)
                 {
-                    ++j;
-                    if (j <= args.Length)
-                    {
-                        audioQuality = Convert.ToInt32(args[j]);
-                    }
+                    Help();
                 }
+                int lastIdx = args.Length - 1;
+                string downloadDirectory = args[lastIdx].Trim(Path.GetInvalidFileNameChars()).Trim(Path.GetInvalidPathChars());
+                Console.WriteLine("Download directory: " + downloadDirectory);
+                string[] urls = new string[lastIdx - j];
+                for (int i = j; i < lastIdx; ++i)
+                {
+                    urls[i - j] = args[i];
+                }
+                IList<string> partUrls = ProcessUrls(urls);
+                Console.WriteLine("Parts to download:");
+                for (int i = 0; i < partUrls.Count; i++)
+                {
+                    Console.WriteLine("  Part URL: " + partUrls[i]);
+                }
+                Console.WriteLine();
+                for (int i = 0; i < partUrls.Count; i++)
+                {
+                    RecordAndMux(partUrls[i], downloadDirectory, isDeterministic);
+                }
+                Console.WriteLine("All downloading and muxing done.");
             }
-            if (args.Length < j + 2)
+            catch (Exception e)
             {
-                Help();
+                Console.WriteLine("Exception: {0}", e.Message);
+                Environment.Exit(-1);
             }
-            int lastIdx = args.Length - 1;
-            string downloadDirectory = args[lastIdx].Trim(Path.GetInvalidFileNameChars()).Trim(Path.GetInvalidPathChars());
-            Console.WriteLine("Download directory: " + downloadDirectory);
-            string[] urls = new string[lastIdx - j];
-            for (int i = j; i < lastIdx; ++i)
-            {
-                urls[i - j] = args[i];
-            }
-            IList<string> partUrls = ProcessUrls(urls);
-            Console.WriteLine("Parts to download:");
-            for (int i = 0; i < partUrls.Count; i++)
-            {
-                Console.WriteLine("  Part URL: " + partUrls[i]);
-            }
-            Console.WriteLine();
-            for (int i = 0; i < partUrls.Count; i++)
-            {
-                RecordAndMux(partUrls[i], downloadDirectory, isDeterministic);
-            }
-            Console.WriteLine("All downloading and muxing done.");
         }
 
         // May return the same reference (urls).
