@@ -86,7 +86,7 @@ namespace Smoothget
                     Help();
                 }
                 int lastIdx = args.Length - 1;
-                string downloadDirectory = args[lastIdx].Trim(Path.GetInvalidFileNameChars()).Trim(Path.GetInvalidPathChars());
+                string downloadDirectory = args[lastIdx].Trim(Path.GetInvalidPathChars());
                 Console.WriteLine("Download directory: " + downloadDirectory);
                 string[] urls = new string[lastIdx - j];
                 for (int i = j; i < lastIdx; ++i)
